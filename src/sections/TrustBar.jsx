@@ -7,17 +7,17 @@ var statIcons = {
   "Years SLS Leadership": <Award size={18} strokeWidth={1.5} />,
   "Years at Qualcomm": <Cpu size={18} strokeWidth={1.5} />,
   "Animal Husbandry & Agritech": <Sprout size={18} strokeWidth={1.5} />,
-  "Tech Talks": <Mic size={18} strokeWidth={1.5} />,
-  "Startup Talks": <Rocket size={18} strokeWidth={1.5} />
+  "Tech & Startup Talks": <Mic size={18} strokeWidth={1.5} />,
+  "Startup Mentorship": <Rocket size={18} strokeWidth={1.5} />
 };
 
 var statDescriptions = {
-  "Years Experience": `Firmware engineering, customized kernels, and system level integrations.`,
+  "Years Experience": `Product engineering, customized IoT integration.`,
   "Years SLS Leadership": `Orchestrating engineering processes and utility automation solutions.`,
   "Years at Qualcomm": `Snapdragon platform integration, driver validation, and cross-chipset BSP work.`,
   "Animal Husbandry & Agritech": `Founding and technical leadership across livestock IoT and sustainable farming ventures.`,
-  "Tech Talks": `Faculty development programs, seminars, and engineering college lectures.`,
-  "Startup Talks": `Startup mentorship sessions and entrepreneurship council engagements.`
+  "Tech & Startup Talks": `Faculty development programs, seminars, engineering lectures, and startup talks.`,
+  "Startup Mentorship": `Mentoring founders through startup sessions and entrepreneurship council engagements.`
 };
 
 var brandLogos = {
@@ -58,6 +58,34 @@ var brandLogos = {
         <text x="56" y="17" fontFamily="var(--font-sans)" fontWeight="400" fontSize="10.5" fill="currentColor" opacity="0.7">{`Gujarat`}</text>
       </svg>
 };
+
+function ShowcaseMarquee({ title, items, renderItem, emptyMessage, loop = true }) {
+  const copies = loop ? [0, 1] : [0];
+  return (
+    <div className="showcase-band">
+      <div className="showcase-band-heading">
+        <span className="showcase-heading-rule" />
+        <h3>{title}</h3>
+        <span className="showcase-heading-rule" />
+      </div>
+      {items.length ? (
+        <div className={`scroll-mask-wrapper${loop ? '' : ' showcase-static-wrapper'}`}>
+          <div className="marquee-track">
+            {copies.map((copy) => (
+              <div className={loop ? 'marquee-content' : 'marquee-content showcase-static-content'} key={copy} aria-hidden={copy === 1}>
+                {items.map((item, index) => (
+                  <div className="showcase-card" key={`${copy}-${item.id || item.name || item.title || index}`}>
+                    {renderItem(item)}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : <p className="showcase-empty">{emptyMessage}</p>}
+    </div>
+  );
+}
 
 function AnimatedCounter({
   targetValue: e,
@@ -158,7 +186,10 @@ function TrustBar() {
       data: e
     } = useContent(),
     t = e.profile.trustStats,
-    n = e.profile.trustBrands;
+    n = (e.profile.trustBrands || []).map((brand, index) => typeof brand === 'string'
+      ? { id: `partner-${index}`, name: brand, logoUrl: '' }
+      : brand),
+    projects = e.projects || [];
   return <section style={{
     backgroundColor: `var(--bg-primary)`,
     borderBottom: `1px solid var(--border-thin)`,
@@ -182,101 +213,128 @@ function TrustBar() {
               <AnimatedCounter targetValue={e.value} label={e.label} />
             </div>)}
         </div>
-        <div style={{
-        borderTop: `1px solid var(--border-thin)`,
-        paddingTop: `4rem`,
-        display: `flex`,
-        flexDirection: `column`,
-        gap: `2rem`,
-        position: `relative`
-      }} className="reveal-element reveal-delay-2">
-          <div style={{
-          display: `flex`,
-          alignItems: `center`,
-          justifyContent: `center`,
-          gap: `0.6rem`
-        }}>
-            <span style={{
-            width: `4px`,
-            height: `4px`,
-            backgroundColor: `var(--accent-copper)`,
-            borderRadius: `50%`
-          }} />
-            <span style={{
-            fontSize: `0.72rem`,
-            fontWeight: 700,
-            color: `var(--text-secondary)`,
-            textTransform: `uppercase`,
-            letterSpacing: `0.15em`
-          }}>{`Trusted Partners & Projects`}</span>
-            <span style={{
-            width: `4px`,
-            height: `4px`,
-            backgroundColor: `var(--accent-copper)`,
-            borderRadius: `50%`
-          }} />
-          </div>
-          <div className="scroll-mask-wrapper">
-            <div className="marquee-track">
-              <div className="marquee-content">
-                {n.map((e, t) => <div key={`brand-1-${t}`} style={{
-                backgroundColor: `#FFFFFF`,
-                border: `1px solid var(--border-thin)`,
-                borderRadius: `6px`,
-                padding: `1.2rem 2.2rem`,
-                display: `flex`,
-                justifyContent: `center`,
-                alignItems: `center`,
-                minWidth: `200px`,
-                height: `72px`,
-                boxShadow: `0 2px 8px -4px rgba(0,0,0,0.05)`,
-                transition: `all 0.3s cubic-bezier(0.16, 1, 0.3, 1)`,
-                cursor: `default`,
-                flexShrink: 0
-              }} className="brand-logo-card">
-                    {brandLogos[e] || <span style={{
-                  fontSize: `1rem`,
-                  fontWeight: 800,
-                  color: `var(--text-primary)`
-                }}>
-                        {e}
-                      </span>}
-                  </div>)}
-              </div>
-              <div className="marquee-content" aria-hidden="true">
-                {n.map((e, t) => <div key={`brand-2-${t}`} style={{
-                backgroundColor: `#FFFFFF`,
-                border: `1px solid var(--border-thin)`,
-                borderRadius: `6px`,
-                padding: `1.2rem 2.2rem`,
-                display: `flex`,
-                justifyContent: `center`,
-                alignItems: `center`,
-                minWidth: `200px`,
-                height: `72px`,
-                boxShadow: `0 2px 8px -4px rgba(0,0,0,0.05)`,
-                transition: `all 0.3s cubic-bezier(0.16, 1, 0.3, 1)`,
-                cursor: `default`,
-                flexShrink: 0
-              }} className="brand-logo-card">
-                    {brandLogos[e] || <span style={{
-                  fontSize: `1rem`,
-                  fontWeight: 800,
-                  color: `var(--text-primary)`
-                }}>
-                        {e}
-                      </span>}
-                  </div>)}
-              </div>
-            </div>
-          </div>
+        <div className="showcase-bands reveal-element reveal-delay-2">
+          <ShowcaseMarquee
+            title="Trusted Partners"
+            items={n}
+            emptyMessage="Partner logos will appear here."
+            renderItem={(brand) => brand.logoUrl
+              ? <img className="partner-logo-image" src={brand.logoUrl} alt={`${brand.name} logo`} />
+              : brandLogos[brand.name] || <span className="partner-logo-name">{brand.name}</span>}
+          />
+          <ShowcaseMarquee
+            title="Projects"
+            items={projects}
+            loop={false}
+            emptyMessage="Projects coming soon."
+            renderItem={(project) => (
+              <>
+                {project.image && <img className="project-showcase-image" src={project.image} alt="" />}
+                <span className="project-showcase-copy">
+                  <strong>{project.title}</strong>
+                  {project.category && <small>{project.category}</small>}
+                </span>
+              </>
+            )}
+          />
         </div>
       </div>
       <style>{`
-        .brand-logo-card:hover {
+        .showcase-bands {
+          border-top: 1px solid var(--border-thin);
+          padding-top: 3rem;
+          display: flex;
+          flex-direction: column;
+          gap: 2.5rem;
+        }
+        .showcase-band-heading {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.7rem;
+          margin-bottom: 0.5rem;
+        }
+        .showcase-band-heading h3 {
+          margin: 0;
+          color: var(--text-secondary);
+          font-size: 0.72rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.15em;
+        }
+        .showcase-heading-rule {
+          width: 4px;
+          height: 4px;
+          border-radius: 50%;
+          background: var(--accent-copper);
+        }
+        .showcase-card {
+          box-sizing: border-box;
+          width: 220px;
+          height: 88px;
+          padding: 0.85rem 1.2rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.9rem;
+          flex: 0 0 220px;
+          overflow: hidden;
+          background: #fff;
+          border: 1px solid var(--border-thin);
+          border-radius: 6px;
+          box-shadow: 0 2px 8px -4px rgba(0,0,0,0.05);
+          transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .showcase-card:hover {
           transform: translateY(-3px);
           border-color: var(--accent-copper) !important;
           box-shadow: 0 10px 20px -8px rgba(193, 92, 61, 0.15) !important;
+        }
+        .partner-logo-image {
+          display: block;
+          max-width: 100%;
+          max-height: 54px;
+          object-fit: contain;
+        }
+        .partner-logo-name {
+          color: var(--text-primary);
+          font-size: 1rem;
+          font-weight: 800;
+          text-align: center;
+        }
+        .project-showcase-image {
+          width: 76px;
+          height: 56px;
+          flex: 0 0 76px;
+          object-fit: cover;
+          border-radius: 3px;
+        }
+        .project-showcase-copy {
+          display: flex;
+          min-width: 0;
+          flex-direction: column;
+          gap: 0.25rem;
+          overflow: hidden;
+        }
+        .project-showcase-copy strong {
+          overflow: hidden;
+          color: var(--text-primary);
+          font-size: 0.82rem;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .project-showcase-copy small {
+          overflow: hidden;
+          color: var(--text-secondary);
+          font-size: 0.68rem;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .showcase-empty {
+          margin: 0;
+          color: var(--text-secondary);
+          font-size: 0.85rem;
+          text-align: center;
         }
         .scroll-mask-wrapper {
           position: relative;
@@ -316,6 +374,15 @@ function TrustBar() {
           gap: 1.5rem;
           flex-shrink: 0;
           animation: marquee-scroll 28s linear infinite;
+        }
+        .showcase-static-wrapper::before,
+        .showcase-static-wrapper::after {
+          display: none;
+        }
+        .showcase-static-content {
+          width: 100%;
+          justify-content: center;
+          flex-wrap: wrap;
         }
         .marquee-track:hover .marquee-content,
         .scroll-mask-wrapper:hover .marquee-content,

@@ -67,6 +67,10 @@ Skip uploading `server/node_modules/` (if present) — you'll install
 dependencies through hPanel instead, which builds the right binaries for
 their server.
 
+Uploaded partner logos and project covers are stored in `server/uploads/`.
+Keep this directory writable and preserve it when replacing the application
+files; it is intentionally excluded from Git and is not part of `server/dist/`.
+
 ## 4. Create the Node.js App in hPanel
 
 hPanel → **Advanced → Node.js** → **Create Application**:

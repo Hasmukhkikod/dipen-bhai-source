@@ -66,7 +66,7 @@ function Header() {
           alignItems: `center`,
           justifyContent: `center`
         }}>
-            <Logo size={120} showText={!1} />
+            <Logo size={136} showText={!1} />
           </a>
           <div style={{
           display: `flex`,

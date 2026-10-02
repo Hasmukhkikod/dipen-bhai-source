@@ -1,6 +1,5 @@
 import { ShieldAlert } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
-import Logo from './Logo';
 
 function Footer() {
   let {
@@ -29,7 +28,7 @@ function Footer() {
           flexDirection: `column`,
           gap: `0.8rem`
         }}>
-            <Logo size={32} showText={!0} textColor="var(--text-light)" />
+            <img src="/Navyrix%20logo%20footer.png" alt="Navyrix Labs" style={{ display: `block`, width: `min(220px, 100%)`, height: `auto`, objectFit: `contain`, objectPosition: `left center` }} />
             <p style={{
             fontSize: `0.9rem`,
             color: `var(--text-light-secondary)`,
@@ -110,10 +109,12 @@ function Footer() {
             {new Date().getFullYear()}
             {` NAVYRIX LABS. ALL RIGHTS RESERVED.`}
           </span>
-          <span style={{
-          fontSize: `0.75rem`,
-          fontFamily: `monospace`
-        }}>{`LATENCY: 12ms // CORE MODULE: CONNECTED`}</span>
+          <span style={{ fontSize: `0.8rem` }}>
+            {`Designed and developed by `}
+            <a href="https://grovixo.com/" target="_blank" rel="noreferrer" className="nav-link" style={{ color: `var(--text-light)`, fontWeight: 700 }}>
+              {`Grovixo Technohub`}
+            </a>
+          </span>
         </div>
       </div>
       <style>{`

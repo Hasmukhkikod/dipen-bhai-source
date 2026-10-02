@@ -542,7 +542,7 @@ function TechnicalDepth() {
                 textTransform: `uppercase`,
                 color: `var(--text-primary)`,
                 margin: 0
-              }}>{`3) Ecosystem & Community Mentorship`}</h3>
+              }}>{`3) Community Product Contributions`}</h3>
               </div>
               {n.ecosystem ? <ChevronUp size={20} style={{
               color: `var(--accent-copper)`
@@ -562,17 +562,17 @@ function TechnicalDepth() {
               gap: `1.5rem`
             }} className="strategy-grid">
                   {[{
-                title: `Incubation Pitch Judging`,
-                detail: `Serving on technical evaluation panels at i-Hub Gujarat and Sardar Patel SEC, reviewing hardware prototype viability and production readiness.`
+                title: `Startup Product Reviews`,
+                detail: `Review early hardware concepts for integration effort, engineering constraints, and practical deployment risks.`
               }, {
-                title: `Faculty Seminars Delivery`,
-                topic: `Lecturing on modern Embedded Linux systems, RTOS architecture, and IoT agritech business models at AICTE ATAL Academies.`
+                title: `Applied Engineering Education`,
+                detail: `Share practical approaches to embedded platforms and connected products through focused sessions for students and engineering teams.`
               }, {
-                title: `Open Source Connectivity`,
-                detail: `Active contributor to open-source hardware communities (LibreRouter), reviewing wireless mesh nodes schematic allocations.`
+                title: `Open Network Collaboration`,
+                detail: `Bring open-source connectivity experience to community networks, considering interoperability and real-world operating conditions.`
               }, {
-                title: `Mentorship Frameworks`,
-                detail: `Structuring technical roadmap reviews and manufacturing readiness guidelines for early-stage IoT startup founders.`
+                title: `Product Readiness Guidance`,
+                detail: `Help teams identify the next product risks to resolve across testing, compliance planning, and manufacturing handoff.`
               }].map((e, t) => <div key={t} style={{
                 padding: `1.6rem`,
                 border: `1px solid var(--border-thin)`,

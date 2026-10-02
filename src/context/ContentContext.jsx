@@ -11,7 +11,7 @@ function getToken() {
 async function apiFetch(path, options = {}) {
   const token = getToken();
   const headers = { ...(options.headers || {}) };
-  if (options.body) headers['Content-Type'] = 'application/json';
+  if (options.body && !(options.body instanceof FormData)) headers['Content-Type'] = 'application/json';
   if (token) headers.Authorization = `Bearer ${token}`;
 
   const res = await fetch(`/api${path}`, { ...options, headers });
@@ -97,6 +97,11 @@ const ContentProvider = ({ children }) => {
     updateProfile: async (profile) => {
       await apiFetch('/admin/profile', { method: 'PUT', body: JSON.stringify(profile) });
       setData((d) => ({ ...d, profile: { ...d.profile, ...profile } }));
+    },
+    uploadImage: async (file) => {
+      const formData = new FormData();
+      formData.append('image', file);
+      return apiFetch('/admin/uploads/image', { method: 'POST', body: formData });
     },
 
     updateSettings: async (settings) => {

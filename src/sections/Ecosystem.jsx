@@ -119,13 +119,13 @@ function Ecosystem() {
                     color: `var(--text-primary)`,
                     margin: 0,
                     textTransform: `uppercase`
-                  }}>{`Embedded Firmware Architecture`}</h4>
+                  }}>{`Product Engineering & Integration`}</h4>
                     <p style={{
                     fontSize: `0.86rem`,
                     lineHeight: `1.45`,
                     color: `var(--text-secondary)`,
                     margin: 0
-                  }}>{`Design and optimization of secure firmware, microcontrollers, driver integration, and custom kernel Board Support Packages (BSP).`}</p>
+                  }}>{`End-to-end product engineering that brings hardware, embedded software, connectivity, and custom platform integration together in production-ready solutions.`}</p>
                   </div>
                 </div>
                 <div style={{

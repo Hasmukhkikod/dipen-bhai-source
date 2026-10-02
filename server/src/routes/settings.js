@@ -33,9 +33,9 @@ const DEFAULT_PROFILE = {
   firstName: 'NAVYRIX', lastName: 'LABS', fullName: 'NAVYRIX LABS',
   tagline: 'Engineering Ideas Into Products That Ship.',
   roleDescription: 'Product Engineering Services (Electronics & Defense, Agritech, Biotech) | IoT & Connected Systems | Agile Product Architecture | Startup Mentor & Consulting Services | Expert Talks',
-  shortBio: 'NAVYRIX is a product engineering practice led by Dipen Parmar, built on 17+ years across electronics, defense, agritech, and biotech. We take connected hardware ideas from first sketch to certified, mass-produced product — and mentor the founders building the next generation of hardware startups.',
+  shortBio: 'NAVYRIX is a product engineering practice led by Dipen Parmar, built on 18+ years across electronics, defense, agritech, and biotech. We take connected ideas from first sketch to certified, mass production — and mentor the founders building the next generation of innovative hardware startups..',
   aboutHeadline: 'Two decades of engineering discipline. One partner for product execution.',
-  aboutIntro: 'At Navyrix Labs, we combine 17+ years of embedded systems expertise with startup product delivery, agritech innovation, and technology mentorship. Led by Chief Architect Dipen Parmar, our specialized engineering group helps organizations design, validate, and scale connected hardware systems.',
+  aboutIntro: 'At Navyrix Labs, we combine 18+ years of embedded systems expertise with startup product delivery, agritech innovation, and technology mentorship. Led by Chief Architect Dipen Parmar, our specialized engineering group helps organizations design, validate, and scale connected hardware systems.',
   avatarUrl: '/dipen_headshot.png', cvUrl: '#', ctaDiscoveryUrl: 'https://calendly.com/dipen-parmar/30min',
 };
 const DEFAULT_SETTINGS = {

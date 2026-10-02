@@ -1,6 +1,6 @@
 
 function Logo({
-
+  size = 100,
   showText = false,
   textColor = 'var(--text-primary)'
 }) {
@@ -20,9 +20,10 @@ function Logo({
       
         style={{
           display: 'block',
-          width: `100px`,
-          padding: `1rem`,
-          height: 'auto',
+          width: `${size}px`,
+          height: '72px',
+          padding: 0,
+          boxSizing: 'border-box',
           objectFit: 'contain',
           objectPosition: 'center bottom',
           borderRadius: '8px',

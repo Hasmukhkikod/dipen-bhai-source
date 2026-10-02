@@ -160,7 +160,7 @@ async function loadContent({ includeUnpublishedBlogs = false } = {}) {
     };
   } catch (error) {
     console.warn('MySQL unavailable; serving fallback content.', error.message || error);
-    return structuredClone(await getFallbackContent());
+    return JSON.parse(JSON.stringify(await getFallbackContent()));
   }
 }
 

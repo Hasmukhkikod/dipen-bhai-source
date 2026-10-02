@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
+const { router: uploadRoutes, uploadDirectory } = require('./routes/uploads');
 
 const authRoutes = require('./routes/auth');
 const siteRoutes = require('./routes/site');
@@ -17,6 +18,7 @@ app.use(cors({
   origin: allowedOrigins.length ? allowedOrigins : true,
 }));
 app.use(express.json({ limit: '5mb' }));
+app.use('/uploads', express.static(uploadDirectory, { fallthrough: false }));
 
 app.get('/api/health', (req, res) => res.json({ ok: true }));
 
@@ -27,6 +29,7 @@ app.use('/api', blogsRoutes);
 app.use('/api', projectsRoutes);
 app.use('/api', profileRoutes);
 app.use('/api', settingsRoutes);
+app.use('/api', uploadRoutes);
 
 // Unmatched API routes get a JSON 404 instead of falling through to the SPA.
 app.use('/api', (req, res) => res.status(404).json({ error: 'Not found' }));

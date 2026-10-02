@@ -119,19 +119,7 @@ function Hero() {
               display: `flex`,
               flexDirection: `column`
             }}>
-                <span style={{
-                fontSize: `0.7rem`,
-                fontWeight: 700,
-                color: `var(--text-secondary)`,
-                textTransform: `uppercase`,
-                letterSpacing: `0.1em`
-              }}>{`Positioning`}</span>
-                <span style={{
-                fontSize: `0.9rem`,
-                fontWeight: 600,
-                color: `var(--text-primary)`,
-                marginTop: `0.2rem`
-              }}>{`Technical Leader & IoT Architect`}</span>
+                
               </div>
               <div style={{
               display: `flex`,
@@ -218,7 +206,7 @@ function Hero() {
                 display: `inline-block`
               }} />
                 {t.fullName}
-                {` / AHMEDABAD, IND`}
+                {` / Anand, IND`}
               </div>
             </div>
           </div>

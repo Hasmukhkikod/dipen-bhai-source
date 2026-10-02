@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown, ChevronUp, CircleCheckBig, Layers } from 'lucide-react';
+import ProcessDiagram from './ProcessDiagram';
 
 function Process() {
   let [e, t] = useState(0),
@@ -258,17 +259,17 @@ function Process() {
               color: `var(--text-secondary)`,
               textTransform: `uppercase`,
               letterSpacing: `0.08em`
-            }}>{`Hardware Schematic Wireframe`}</span>
+            }}>{`Product Engineering Vector`}</span>
             </div>
             {e >= 0 && e < n.length ? <div style={{
             width: `100%`,
-            maxWidth: `280px`,
-            aspectRatio: `1`,
+            maxWidth: `420px`,
+            minHeight: `290px`,
             display: `flex`,
             alignItems: `center`,
             justifyContent: `center`
           }}>
-                {n[e].wireframe}
+                <ProcessDiagram key={e} step={e} />
               </div> : <div style={{
             fontSize: `0.85rem`,
             color: `var(--text-secondary)`,
@@ -289,13 +290,14 @@ function Process() {
             }}>
                   {`Step `}
                   {n[e].step}
-                  {` Calibration Schema`}
+                  {` · `}
+                  {n[e].name}
                 </span>
                 <span style={{
               fontSize: `0.78rem`,
               color: `var(--text-secondary)`
             }}>
-                  {`Active layout mapping for `}
+                  {`Vector overview · `}
                   {n[e].name}
                 </span>
               </div>}

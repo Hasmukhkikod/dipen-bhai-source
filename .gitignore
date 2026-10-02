@@ -3,4 +3,5 @@ dist
 *.log
 .env
 server/.env
+server/uploads/
 .DS_Store

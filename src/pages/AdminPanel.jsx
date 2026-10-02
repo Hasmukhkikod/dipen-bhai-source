@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { BookOpen, ExternalLink, FolderGit2, Image as ImageIcon, Inbox, LayoutDashboard, PenLine, Plus, RotateCcw, Save, Settings as SettingsIcon, Trash2, UserCog } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
+import PartnersManager from '../components/PartnersManager';
+import AdminImageUpload from '../components/AdminImageUpload';
 
 function AdminPanel() {
   let {
@@ -298,6 +300,29 @@ function AdminPanel() {
           }}>
               <FolderGit2 size={16} />
               {`Project Manager`}
+            </button>
+            <button onClick={() => {
+            y(`partners`);
+            ae(!1);
+            re(null);
+          }} style={{
+            display: `flex`,
+            alignItems: `center`,
+            gap: `0.75rem`,
+            padding: `0.8rem 1rem`,
+            width: `100%`,
+            textAlign: `left`,
+            border: `none`,
+            background: v === `partners` ? `#222222` : `transparent`,
+            color: v === `partners` ? `#FAF8F5` : `#8C8A87`,
+            fontWeight: 600,
+            fontSize: `0.85rem`,
+            cursor: `pointer`,
+            borderRadius: `4px`,
+            transition: `all 0.2s ease`
+          }}>
+              <ImageIcon size={16} />
+              {`Trusted Partners`}
             </button>
             <button onClick={() => {
             y(`blogs`);
@@ -839,6 +864,7 @@ function AdminPanel() {
                 padding: `0.8rem`,
                 outline: `none`
               }} />
+                  <AdminImageUpload value={b.avatarUrl} recommendation="Recommended portrait: 900 × 1200 px." onChange={avatarUrl => S(current => ({ ...current, avatarUrl }))} />
                 </div>
                 <div style={{
               display: `flex`,
@@ -875,6 +901,7 @@ function AdminPanel() {
               </div>
             </form>
           </div>}
+        {v === `partners` && <PartnersManager />}
         {v === `projects` && <div style={{
         display: `flex`,
         flexDirection: `column`,
@@ -1020,6 +1047,7 @@ function AdminPanel() {
                 padding: `0.8rem`,
                 outline: `none`
               }} />
+                    <AdminImageUpload value={E.image} recommendation="Recommended cover: 1200 × 800 px." onChange={image => oe(current => ({ ...current, image }))} />
                   </div>
                 </div>
                 <div style={{
@@ -1393,6 +1421,7 @@ function AdminPanel() {
                 padding: `0.8rem`,
                 outline: `none`
               }} />
+                    <AdminImageUpload value={A.image} recommendation="Recommended featured image: 1200 × 800 px." onChange={image => ce(current => ({ ...current, image }))} />
                   </div>
                 </div>
                 <div style={{
@@ -2001,7 +2030,7 @@ function AdminPanel() {
               color: `#8C8A87`,
               fontSize: `0.85rem`,
               margin: 0
-            }}>{`Upload project images, credentials PDFs, or download assets.`}</p>
+            }}>{`Use the partner and project editors to upload published images.`}</p>
               </div>
               <div style={{
             display: `grid`,
@@ -2086,8 +2115,10 @@ function AdminPanel() {
                 color: `#8C8A87`
               }}>{`Project Cover`}</span>
                 </div>
-                <div style={{
+                <button type="button" style={{
               border: `1px dashed rgba(255,255,255,0.1)`,
+                background: `transparent`,
+                color: `inherit`,
               padding: `1.5rem`,
               display: `flex`,
               flexDirection: `column`,
@@ -2095,15 +2126,15 @@ function AdminPanel() {
               justifyContent: `center`,
               gap: `0.5rem`,
               cursor: `pointer`
-            }} onClick={() => alert(`Upload Simulation Triggered. Choose image file.`)}>
-                  <Plus size={24} style={{
+              }} onClick={() => y(`partners`)}>
+                    <ImageIcon size={24} style={{
                 color: `#8C8A87`
               }} />
                   <span style={{
                 fontSize: `0.8rem`,
                 color: `#8C8A87`
-              }}>{`Upload Asset`}</span>
-                </div>
+                }}>{`Manage Partner Logos`}</span>
+                  </button>
               </div>
             </div>
           </div>}

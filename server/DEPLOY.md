@@ -38,6 +38,10 @@ Edit `server/.env`:
 - `CORS_ORIGIN` — your site's URL (e.g. `https://navyrixlabs.com`). Only needed if the frontend and API ever end up on different origins; with the Nginx setup below (same origin, `/api` proxied) you can leave this blank.
 - `PORT` — the port the Node process listens on internally (default 4000). Nginx will proxy to this; it doesn't need to be exposed publicly.
 
+Partner logos and project cover uploads are stored in `server/uploads/` outside
+the generated frontend build. Keep that directory writable and backed up when
+deploying updates.
+
 Seed the database (creates the admin login and populates all content tables):
 
 ```bash
