@@ -191,16 +191,7 @@ function Contact() {
               color: `var(--text-light-secondary)`,
               maxWidth: `320px`,
               margin: 0
-            }}>{`Your message has been encrypted and recorded. Dipen will review the proposal parameters and respond within 24 hours.`}</p>
-                <div style={{
-              fontSize: `0.7rem`,
-              fontFamily: `monospace`,
-              color: `var(--accent-copper)`,
-              backgroundColor: `rgba(18, 18, 18, 0.5)`,
-              padding: `0.5rem 1rem`,
-              border: `1px solid var(--border-thin-dark)`,
-              marginTop: `1rem`
-            }}>{`SIMULATION: Node Mailer Triggered Successfully.`}</div>
+            }}>{`Your enquiry has been received. The Navyrix team will reply to the email address you provided.`}</p>
                 <button onClick={() => o(`idle`)} className="btn btn-secondary" style={{
               border: `1px solid var(--border-thin-dark)`,
               color: `var(--text-light)`,
@@ -214,8 +205,6 @@ function Contact() {
             o(`loading`);
             try {
               await t(r);
-              console.log(`%c[SIMULATION] Email trigger dispatched to: ${n.contactEmail || `dipen238@gmail.com`}`, `color: #C15C3D; font-weight: bold;`);
-              console.log(`[SIMULATION] Payload Details:`, r);
               o(`success`);
               i({
                 name: ``,

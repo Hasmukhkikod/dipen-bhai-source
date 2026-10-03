@@ -55,6 +55,14 @@ If you ever need to regenerate it (e.g. after changing `server/.env`),
 run `npm run dump` from inside `server/` and re-upload the new
 `server/dump.sql`.
 
+When updating an existing database (instead of importing the updated dump into
+a fresh database), add the optional Talks Manager image column once in
+phpMyAdmin → SQL:
+
+```sql
+ALTER TABLE speaking ADD COLUMN image VARCHAR(500) NULL;
+```
+
 ## 3. Upload the `server/` folder
 
 Use hPanel's **File Manager** or an FTP client, upload the entire

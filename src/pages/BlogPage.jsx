@@ -10,68 +10,20 @@ function BlogPage({
     } = useContent(),
     n = t.blogs || [];
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: `instant`
-    });
+    window.scrollTo({ top: 0, behavior: `instant` });
   }, [e]);
   let r = e.startsWith(`#/blog/`),
     i = r ? e.replace(`#/blog/`, ``) : ``,
     a = r ? n.find(e => e.id === i || e.slug === i) : null;
-  return <div style={{
-    backgroundColor: `var(--bg-primary)`,
-    minHeight: `100vh`,
-    display: `flex`,
-    flexDirection: `column`
-  }}>
-      <header style={{
-      borderBottom: `1px solid var(--border-thin)`,
-      padding: `2rem 0`,
-      backgroundColor: `var(--bg-primary)`,
-      position: `sticky`,
-      top: 0,
-      zIndex: 50
-    }}>
-        <div className="container-custom" style={{
-        display: `flex`,
-        justifyContent: `space-between`,
-        alignItems: `center`
-      }}>
-          <a href="#/" style={{
-          fontSize: `1.1rem`,
-          fontWeight: 850,
-          textTransform: `uppercase`,
-          color: `var(--text-primary)`,
-          letterSpacing: `0.05em`,
-          textDecoration: `none`,
-          display: `flex`,
-          alignItems: `center`,
-          gap: `0.5rem`
-        }}>
-            <span>{`NAVYRIX LABS`}</span>
-          </a>
-          <div style={{
-          display: `flex`,
-          gap: `2rem`,
-          alignItems: `center`
-        }}>
-            <a href="#/" style={{
-            fontSize: `0.8rem`,
-            fontWeight: 700,
-            textTransform: `uppercase`,
-            color: `var(--text-secondary)`,
-            textDecoration: `none`,
-            letterSpacing: `0.05em`
-          }}>{`Portfolio`}</a>
-            <a href="#/blog" style={{
-            fontSize: `0.8rem`,
-            fontWeight: 700,
-            textTransform: `uppercase`,
-            color: `var(--accent-copper)`,
-            textDecoration: `none`,
-            letterSpacing: `0.05em`
-          }}>{`Writing`}</a>
-          </div>
+  return <div style={{ backgroundColor: `var(--bg-primary)`, minHeight: `100vh`, display: `flex`, flexDirection: `column` }}>
+      <header style={{ borderBottom: `1px solid var(--border-thin)`, padding: `2rem 0`, backgroundColor: `var(--bg-primary)`, position: `sticky`, top: 0, zIndex: 50 }}>
+        <div className="container-custom" style={{ display: `flex`, justifyContent: `space-between`, alignItems: `center` }}>
+          <a href="#/" style={{ fontSize: `1.1rem`, fontWeight: 850, textTransform: `uppercase`, color: `var(--text-primary)`, letterSpacing: `0.05em`, textDecoration: `none` }}>{`NAVYRIX LABS`}</a>
+          <nav aria-label="Journal navigation" style={{ display: `flex`, gap: `2rem`, alignItems: `center` }}>
+            <a href="#/" style={{ fontSize: `0.8rem`, fontWeight: 700, textTransform: `uppercase`, color: `var(--text-secondary)`, textDecoration: `none`, letterSpacing: `0.05em` }}>{`Portfolio`}</a>
+            <a href="#/blog" style={{ fontSize: `0.8rem`, fontWeight: 700, textTransform: `uppercase`, color: `var(--accent-copper)`, textDecoration: `none`, letterSpacing: `0.05em` }}>{`Writing`}</a>
+            <a href="#/talks" style={{ fontSize: `0.8rem`, fontWeight: 700, textTransform: `uppercase`, color: `var(--text-secondary)`, textDecoration: `none`, letterSpacing: `0.05em` }}>{`Talks`}</a>
+          </nav>
         </div>
       </header>
       <main style={{
@@ -445,34 +397,16 @@ function BlogPage({
             </div>}
         </div>
       </main>
-      <footer style={{
-      borderTop: `1px solid var(--border-thin)`,
-      padding: `3rem 0`,
-      backgroundColor: `var(--bg-secondary)`,
-      color: `var(--text-secondary)`,
-      fontSize: `0.85rem`
-    }}>
-        <div className="container-custom" style={{
-        display: `flex`,
-        justifyContent: `space-between`,
-        alignItems: `center`,
-        flexWrap: `wrap`,
-        gap: `1.5rem`
-      }}>
-          <div>
-            {`© `}
-            {new Date().getFullYear()}
-            {` NAVYRIX LABS. All rights reserved.`}
+      <footer style={{ borderTop: `1px solid var(--border-thin)`, padding: `2rem 0`, backgroundColor: `var(--bg-secondary)`, color: `var(--text-secondary)`, fontSize: `0.8rem` }}>
+        <div className="container-custom blog-footer-inner">
+          <div className="blog-footer-brand">
+            <img src="/Navyrix%20logo.png" alt="Navyrix Labs" />
+            <span>{`© `}{new Date().getFullYear()}{` NAVYRIX LABS. All rights reserved.`}</span>
           </div>
-          <div style={{
-          display: `flex`,
-          gap: `1.5rem`
-        }}>
-            <a href="#/" style={{
-            color: `inherit`,
-            textDecoration: `none`
-          }}>{`Portfolio Home`}</a>
-          </div>
+          <nav className="blog-footer-links" aria-label="Journal links">
+            <a href="#/talks">{`Speaking & Talks`}</a>
+            <a href="#/">{`Portfolio Home`}</a>
+          </nav>
         </div>
       </footer>
       <style>{`
@@ -489,6 +423,38 @@ function BlogPage({
         }
         .hover-copper:hover {
           color: var(--accent-copper) !important;
+        }
+        .blog-footer-inner {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 1.5rem;
+        }
+        .blog-footer-brand {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.6rem;
+        }
+        .blog-footer-brand img {
+          display: block;
+          width: 104px;
+          height: 64px;
+          object-fit: contain;
+          object-position: left center;
+        }
+        .blog-footer-links {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1.5rem;
+        }
+        .blog-footer-links a {
+          color: inherit;
+          text-decoration: none;
+        }
+        .blog-footer-links a:hover {
+          color: var(--accent-copper);
         }
         @media (max-width: 600px) {
           .blog-list-card-link {

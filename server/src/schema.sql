@@ -99,7 +99,19 @@ CREATE TABLE IF NOT EXISTS speaking (
   sort_order INT DEFAULT 0,
   date VARCHAR(50),
   event VARCHAR(255),
-  topic VARCHAR(255)
+  topic VARCHAR(255),
+  description TEXT,
+  image VARCHAR(500)
+);
+
+-- Separate public Talks page content; independent from portfolio speaking entries.
+CREATE TABLE IF NOT EXISTS talks (
+  id VARCHAR(50) PRIMARY KEY,
+  sort_order INT DEFAULT 0,
+  date VARCHAR(50),
+  event VARCHAR(255),
+  topic VARCHAR(255),
+  image VARCHAR(500)
 );
 
 -- Singleton row (id always 1)

@@ -3,13 +3,14 @@ import { ContentProvider } from './context/ContentContext';
 import AdminPanel from './pages/AdminPanel';
 import BlogPage from './pages/BlogPage';
 import MainSite from './pages/MainSite';
+import TalksPage from './pages/TalksPage';
 
 function App() {
   let [e, t] = useState(window.location.hash || `#/`);
   useEffect(() => {
     let e = () => {
       let e = window.location.hash || `#/`;
-      if (t(e), !e.startsWith(`#/admin`) && !e.startsWith(`#/blog`)) {
+      if (t(e), !e.startsWith(`#/admin`) && !e.startsWith(`#/blog`) && !e.startsWith(`#/talks`)) {
         let t = e.startsWith(`#/`) ? e.substring(2) : e.substring(1);
         if (t) {
           let e = document.getElementById(t);
@@ -34,7 +35,7 @@ function App() {
   }, []);
   useEffect(() => {
     let e = window.location.hash;
-    if (e && !e.startsWith(`#/admin`) && !e.startsWith(`#/blog`)) {
+    if (e && !e.startsWith(`#/admin`) && !e.startsWith(`#/blog`) && !e.startsWith(`#/talks`)) {
       let t = e.startsWith(`#/`) ? e.substring(2) : e.substring(1);
       if (t) {
         let e = setTimeout(() => {
@@ -48,7 +49,7 @@ function App() {
     }
   }, []);
   return <ContentProvider>
-      {e.startsWith(`#/admin`) ? <AdminPanel /> : e.startsWith(`#/blog`) ? <BlogPage currentPath={e} /> : <MainSite />}
+      {e.startsWith(`#/admin`) ? <AdminPanel /> : e.startsWith(`#/blog`) ? <BlogPage currentPath={e} /> : e.startsWith(`#/talks`) ? <TalksPage /> : <MainSite />}
     </ContentProvider>;
 }
 

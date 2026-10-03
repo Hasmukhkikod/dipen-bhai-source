@@ -10,6 +10,7 @@ const blogsRoutes = require('./routes/blogs');
 const projectsRoutes = require('./routes/projects');
 const profileRoutes = require('./routes/profile');
 const settingsRoutes = require('./routes/settings');
+const talksRoutes = require('./routes/talks');
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use('/api', blogsRoutes);
 app.use('/api', projectsRoutes);
 app.use('/api', profileRoutes);
 app.use('/api', settingsRoutes);
+app.use('/api', talksRoutes);
 app.use('/api', uploadRoutes);
 
 // Unmatched API routes get a JSON 404 instead of falling through to the SPA.

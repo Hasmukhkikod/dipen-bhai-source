@@ -11,7 +11,7 @@ const bcrypt = require('bcryptjs');
 const mysql = require('mysql2');
 const {
   profile, settings, ventures, expertise, ecosystem, ecosystemActivities,
-  projects, speaking, globalPresence, skills, certifications,
+  projects, speaking, talks, globalPresence, skills, certifications,
   processSteps, credentials, leads, blogs,
 } = require('./seedData');
 
@@ -88,6 +88,10 @@ async function main() {
   parts.push('-- speaking');
   parts.push(insertSql('speaking', ['id', 'sort_order', 'date', 'event', 'topic'],
     speaking.map((s, i) => [s.id, i, s.date, s.event, s.topic])));
+
+  parts.push('-- independent Talks page content');
+  parts.push(insertSql('talks', ['id', 'sort_order', 'date', 'event', 'topic', 'image'],
+    talks.map((talk, i) => [talk.id, i, talk.date, talk.event, talk.topic, talk.image || ''])));
 
   parts.push('-- global_presence (singleton)');
   parts.push(insertSql('global_presence', ['id', 'headline', 'description', 'countries'],

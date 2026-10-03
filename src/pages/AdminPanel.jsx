@@ -1,8 +1,16 @@
 import { useState } from 'react';
-import { BookOpen, ExternalLink, FolderGit2, Image as ImageIcon, Inbox, LayoutDashboard, PenLine, Plus, RotateCcw, Save, Settings as SettingsIcon, Trash2, UserCog } from 'lucide-react';
+import { BookOpen, ExternalLink, FolderGit2, Image as ImageIcon, Inbox, LayoutDashboard, Mic2, PenLine, Plus, RotateCcw, Save, Settings as SettingsIcon, Trash2, UserCog } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 import PartnersManager from '../components/PartnersManager';
 import AdminImageUpload from '../components/AdminImageUpload';
+
+const adminFieldStyle = {
+  padding: `0.75rem`,
+  color: `#FAF8F5`,
+  background: `#1E1E1E`,
+  border: `1px solid rgba(255,255,255,0.1)`,
+  outline: `none`,
+};
 
 function AdminPanel() {
   let {
@@ -20,6 +28,9 @@ function AdminPanel() {
       addBlog: s,
       updateBlog: c,
       deleteBlog: l,
+      addTalk: addTalk,
+      updateTalk: updateTalk,
+      deleteTalk: deleteTalk,
       resetData: u
     } = useContent(),
     [p, m] = useState(``),
@@ -71,6 +82,9 @@ function AdminPanel() {
     }),
     [D, se] = useState(null),
     [O, k] = useState(!1),
+    [talkFormOpen, setTalkFormOpen] = useState(false),
+    [editingTalk, setEditingTalk] = useState(null),
+    [talkDraft, setTalkDraft] = useState({ date: '', event: '', topic: '', description: '', image: '' }),
     [A, ce] = useState({
       title: ``,
       excerpt: ``,
@@ -113,6 +127,32 @@ function AdminPanel() {
       } catch (err) {
         alert(err.message || `Could not save the blog post.`);
       }
+    },
+    openNewTalk = () => {
+      setEditingTalk(null);
+      setTalkDraft({ date: '', event: '', topic: '', description: '', image: '' });
+      setTalkFormOpen(true);
+    },
+    openEditTalk = talk => {
+      setEditingTalk(talk);
+      setTalkDraft({ date: talk.date || '', event: talk.event || '', topic: talk.topic || '', description: talk.description || '', image: talk.image || '' });
+      setTalkFormOpen(true);
+    },
+    saveTalk = async event => {
+      event.preventDefault();
+      try {
+        if (editingTalk) await updateTalk({ ...talkDraft, id: editingTalk.id });
+        else await addTalk(talkDraft);
+        setTalkFormOpen(false);
+        setEditingTalk(null);
+        setTalkDraft({ date: '', event: '', topic: '', description: '', image: '' });
+      } catch (error) {
+        alert(error.message || 'Could not save the talk.');
+      }
+    },
+    removeTalk = async id => {
+      if (!confirm('Delete this talk?')) return;
+      try { await deleteTalk(id); } catch (error) { alert(error.message || 'Could not delete the talk.'); }
     },
     de = async e => {
       if (confirm(`Are you sure you want to delete this blog post?`)) {
@@ -346,6 +386,29 @@ function AdminPanel() {
           }}>
               <BookOpen size={16} />
               {`Blog Manager`}
+            </button>
+            <button onClick={() => {
+            y(`talks`);
+            setTalkFormOpen(false);
+            setEditingTalk(null);
+          }} style={{
+            display: `flex`,
+            alignItems: `center`,
+            gap: `0.75rem`,
+            padding: `0.8rem 1rem`,
+            width: `100%`,
+            textAlign: `left`,
+            border: `none`,
+            background: v === `talks` ? `#222222` : `transparent`,
+            color: v === `talks` ? `#FAF8F5` : `#8C8A87`,
+            fontWeight: 600,
+            fontSize: `0.85rem`,
+            cursor: `pointer`,
+            borderRadius: `4px`,
+            transition: `all 0.2s ease`
+          }}>
+              <Mic2 size={16} />
+              {`Talks Manager`}
             </button>
             <button onClick={() => {
             y(`leads`);
@@ -1568,6 +1631,43 @@ function AdminPanel() {
                       </button>
                     </div>
                   </div>)}
+              </div>}
+          </div>}
+        {v === `talks` && <div style={{ display: `flex`, flexDirection: `column`, gap: `2.5rem` }}>
+            <div style={{ display: `flex`, justifyContent: `space-between`, alignItems: `flex-start`, gap: `1rem` }}>
+              <div>
+                <h2 style={{ margin: 0, fontSize: `2rem`, fontWeight: 800, textTransform: `uppercase`, color: `#FAF8F5` }}>{`Talks Manager`}</h2>
+                <p style={{ margin: `0.5rem 0 0`, color: `#8C8A87`, fontSize: `0.9rem` }}>{`Manage public lectures, seminars, and speaking sessions.`}</p>
+              </div>
+              {!talkFormOpen && <button onClick={openNewTalk} className="btn btn-accent" style={{ padding: `0.8rem 1.2rem`, fontSize: `0.75rem` }}><Plus size={16} style={{ marginRight: `0.4rem` }} />{`ADD TALK`}</button>}
+            </div>
+            {talkFormOpen ? <form onSubmit={saveTalk} style={{ display: `flex`, flexDirection: `column`, gap: `1.2rem`, maxWidth: `900px`, padding: `2rem`, background: `#161616`, border: `1px solid rgba(255,255,255,0.06)` }}>
+                <h3 style={{ margin: 0, color: `#FAF8F5`, fontSize: `1.1rem`, textTransform: `uppercase` }}>{editingTalk ? `Edit Talk` : `New Talk`}</h3>
+                <div style={{ display: `grid`, gridTemplateColumns: `1fr 1fr`, gap: `1rem` }} className="admin-inputs-row">
+                  <label style={{ display: `flex`, flexDirection: `column`, gap: `0.45rem`, color: `#A09E9B`, fontSize: `0.72rem`, fontWeight: 700, textTransform: `uppercase` }}>{`Date / Period *`}<input required value={talkDraft.date} onChange={event => setTalkDraft(current => ({ ...current, date: event.target.value }))} placeholder="e.g. Dec 2025" style={adminFieldStyle} /></label>
+                  <label style={{ display: `flex`, flexDirection: `column`, gap: `0.45rem`, color: `#A09E9B`, fontSize: `0.72rem`, fontWeight: 700, textTransform: `uppercase` }}>{`Event / Venue *`}<input required value={talkDraft.event} onChange={event => setTalkDraft(current => ({ ...current, event: event.target.value }))} placeholder="Event, organization, or venue" style={adminFieldStyle} /></label>
+                </div>
+                <label style={{ display: `flex`, flexDirection: `column`, gap: `0.45rem`, color: `#A09E9B`, fontSize: `0.72rem`, fontWeight: 700, textTransform: `uppercase` }}>{`Talk Title *`}<input required value={talkDraft.topic} onChange={event => setTalkDraft(current => ({ ...current, topic: event.target.value }))} placeholder="Session or lecture title" style={adminFieldStyle} /></label>
+                <label style={{ display: `flex`, flexDirection: `column`, gap: `0.45rem`, color: `#A09E9B`, fontSize: `0.72rem`, fontWeight: 700, textTransform: `uppercase` }}>{`Full Talk Details`}<textarea value={talkDraft.description} onChange={event => setTalkDraft(current => ({ ...current, description: event.target.value }))} placeholder="Add the session summary, key themes, and audience takeaways." rows={5} style={{ ...adminFieldStyle, resize: `vertical`, fontFamily: `var(--font-sans)`, lineHeight: 1.5 }} /></label>
+                <div style={{ display: `flex`, flexDirection: `column`, gap: `0.5rem` }}>
+                  <label style={{ color: `#A09E9B`, fontSize: `0.72rem`, fontWeight: 700, textTransform: `uppercase` }}>{`Talk / Event Image`}</label>
+                  <AdminImageUpload value={talkDraft.image} recommendation="Recommended event image: 1200 × 800 px." onChange={image => setTalkDraft(current => ({ ...current, image }))} />
+                </div>
+                <div style={{ display: `flex`, gap: `0.8rem` }}>
+                  <button type="submit" className="btn btn-accent" style={{ padding: `0.8rem 1.2rem` }}><Save size={15} style={{ marginRight: `0.4rem` }} />{`Save Talk`}</button>
+                  <button type="button" onClick={() => { setTalkFormOpen(false); setEditingTalk(null); }} className="btn btn-secondary" style={{ padding: `0.8rem 1.2rem`, color: `#FAF8F5` }}>{`Cancel`}</button>
+                </div>
+              </form> : <div style={{ display: `flex`, flexDirection: `column`, border: `1px solid rgba(255,255,255,0.06)` }}>
+                {(e.talks || []).length ? e.talks.map(talk => <div key={talk.id} className="admin-proj-row" style={{ display: `grid`, gridTemplateColumns: `72px 130px minmax(0, 1fr) minmax(0, 1.4fr) 100px`, alignItems: `center`, gap: `1rem`, padding: `1.25rem 1.5rem`, background: `#161616`, borderBottom: `1px solid rgba(255,255,255,0.05)` }}>
+                  {talk.image ? <img src={talk.image} alt="" style={{ width: `64px`, height: `48px`, objectFit: `cover`, borderRadius: `2px` }} /> : <span style={{ width: `64px`, height: `48px`, display: `grid`, placeItems: `center`, background: `#222`, color: `#777`, fontSize: `0.65rem` }}>{`NO IMAGE`}</span>}
+                    <span style={{ color: `var(--accent-copper)`, fontSize: `0.78rem`, fontWeight: 700 }}>{talk.date}</span>
+                    <span style={{ color: `#FAF8F5`, fontWeight: 700 }}>{talk.event}</span>
+                    <span style={{ color: `#A09E9B`, fontSize: `0.85rem` }}>{talk.topic}{talk.description ? <small style={{ display: `block`, marginTop: `0.3rem`, color: `#777` }}>{talk.description.slice(0, 110)}{talk.description.length > 110 ? `…` : ``}</small> : null}</span>
+                    <div style={{ display: `flex`, justifyContent: `flex-end`, gap: `0.5rem` }}>
+                      <button onClick={() => openEditTalk(talk)} title="Edit talk" style={{ border: `none`, background: `#2C2C2C`, color: `#FAF8F5`, padding: `0.5rem`, cursor: `pointer` }}><PenLine size={15} /></button>
+                      <button onClick={() => removeTalk(talk.id)} title="Delete talk" style={{ border: `none`, background: `#3D1C1C`, color: `#FF7F7F`, padding: `0.5rem`, cursor: `pointer` }}><Trash2 size={15} /></button>
+                    </div>
+                  </div>) : <p style={{ padding: `2rem`, margin: 0, color: `#8C8A87` }}>{`No talks yet. Add your first event above.`}</p>}
               </div>}
           </div>}
         {v === `leads` && <div style={{

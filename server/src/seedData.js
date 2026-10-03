@@ -30,7 +30,7 @@ const settings = {
   seoTitle: `Navyrix Labs | Embedded Systems, IoT & Product Engineering Services`,
   seoDescription: `Navyrix Labs delivers embedded systems, IoT architecture, and end-to-end product engineering — from firmware and connected hardware to certification and mass production — across electronics, defense, agritech, and biotech.`,
   seoKeywords: `embedded systems, IoT architecture, product engineering services, firmware development, connected hardware design, agritech IoT, defense electronics, startup mentorship, hardware prototyping, mass manufacturing support`,
-  contactEmail: `dipenparmar@icloud.com`,
+  contactEmail: `info@navyrix.com`,
   contactPhone: `+91 99987 44676`,
   contactLinkedin: `linkedin.com/in/dipenparmar`,
   contactLocation: `Gujarat, India`,
@@ -73,6 +73,8 @@ const speaking = [
   { id: 'sp-3', date: 'Jul 2024', event: 'Sardar Patel SEC Seminar', topic: 'Bridging the Gap: IoT Product-Market Fit for Agritech Founders' },
   { id: 'sp-4', date: 'Feb 2024', event: 'SVIT Engineering College Lecture', topic: 'Career Pathways in Modern Embedded Linux & Wireless Networking' },
 ];
+
+const talks = [];
 
 const globalPresence = {
   headline: 'Technology Without Borders.',
@@ -142,6 +144,6 @@ At **ME2MILLET**, our mission has been to commoditize these edge sensor networks
 
 module.exports = {
   profile, settings, ventures, expertise, ecosystem, ecosystemActivities,
-  projects, journey, speaking, globalPresence, skills, certifications,
+  projects, journey, speaking, talks, globalPresence, skills, certifications,
   processSteps, credentials, leads, blogs,
 };

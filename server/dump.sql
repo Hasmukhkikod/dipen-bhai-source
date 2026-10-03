@@ -102,7 +102,19 @@ CREATE TABLE IF NOT EXISTS speaking (
   sort_order INT DEFAULT 0,
   date VARCHAR(50),
   event VARCHAR(255),
-  topic VARCHAR(255)
+  topic VARCHAR(255),
+  description TEXT,
+  image VARCHAR(500)
+);
+
+-- Separate public Talks page content; independent from portfolio speaking entries.
+CREATE TABLE IF NOT EXISTS talks (
+  id VARCHAR(50) PRIMARY KEY,
+  sort_order INT DEFAULT 0,
+  date VARCHAR(50),
+  event VARCHAR(255),
+  topic VARCHAR(255),
+  image VARCHAR(500)
 );
 
 -- Singleton row (id always 1)
@@ -181,7 +193,7 @@ INSERT INTO `admin_users` (`username`, `password_hash`) VALUES ('admin', '$2a$12
 INSERT INTO `profile` (`id`, `first_name`, `last_name`, `full_name`, `tagline`, `role_description`, `short_bio`, `about_headline`, `about_intro`, `avatar_url`, `cv_url`, `cta_discovery_url`, `trust_stats`, `trust_brands`) VALUES (1, 'NAVYRIX', 'LABS', 'NAVYRIX LABS', 'Engineering Ideas Into Products That Ship.', 'Product Engineering Services (Electronics & Defense, Agritech, Biotech) | IoT & Connected Systems | Agile Product Architecture | Startup Mentor & Consulting Services | Expert Talks', 'NAVYRIX is a product engineering practice led by Dipen Parmar, built on 18+ years across electronics, defense, agritech, and biotech. We take connected ideas from first sketch to certified, mass production — and mentor the founders building the next generation of innovative hardware startups..', 'Two decades of engineering discipline. One partner for product execution.', 'At Navyrix Labs, we combine 18+ years of embedded systems expertise with startup product delivery, agritech innovation, and technology mentorship. Led by Chief Architect Dipen Parmar, our specialized engineering group helps organizations design, validate, and scale connected hardware systems.', '/dipen_hero.png', '#', 'https://calendly.com/dipen-parmar/30min', '[{\"id\":\"stat-1\",\"value\":\"18+\",\"label\":\"Years Experience\"},{\"id\":\"stat-2\",\"value\":\"12+\",\"label\":\"Years SLS Leadership\"},{\"id\":\"stat-3\",\"value\":\"2+\",\"label\":\"Years at Qualcomm\"},{\"id\":\"stat-4\",\"value\":\"5+\",\"label\":\"Animal Husbandry & Agritech\"},{\"id\":\"stat-5\",\"value\":\"20+\",\"label\":\"Tech & Startup Talks\"},{\"id\":\"stat-6\",\"value\":\"30+\",\"label\":\"Startup Mentorship\"}]', '[\"Qualcomm\",\"System Level Solutions\",\"Nebulae IoT\",\"ME2MILLET\",\"LibreRouter\",\"i-Hub Gujarat\"]');
 
 -- settings (singleton)
-INSERT INTO `settings` (`id`, `seo_title`, `seo_description`, `seo_keywords`, `contact_email`, `contact_phone`, `contact_linkedin`, `contact_location`) VALUES (1, 'Navyrix Labs | Embedded Systems, IoT & Product Engineering Services', 'Navyrix Labs delivers embedded systems, IoT architecture, and end-to-end product engineering — from firmware and connected hardware to certification and mass production — across electronics, defense, agritech, and biotech.', 'embedded systems, IoT architecture, product engineering services, firmware development, connected hardware design, agritech IoT, defense electronics, startup mentorship, hardware prototyping, mass manufacturing support', 'dipenparmar@icloud.com', '+91 99987 44676', 'linkedin.com/in/dipenparmar', 'Gujarat, India');
+INSERT INTO `settings` (`id`, `seo_title`, `seo_description`, `seo_keywords`, `contact_email`, `contact_phone`, `contact_linkedin`, `contact_location`) VALUES (1, 'Navyrix Labs | Embedded Systems, IoT & Product Engineering Services', 'Navyrix Labs delivers embedded systems, IoT architecture, and end-to-end product engineering — from firmware and connected hardware to certification and mass production — across electronics, defense, agritech, and biotech.', 'embedded systems, IoT architecture, product engineering services, firmware development, connected hardware design, agritech IoT, defense electronics, startup mentorship, hardware prototyping, mass manufacturing support', 'info@navyrix.com', '+91 99987 44676', 'linkedin.com/in/dipenparmar', 'Gujarat, India');
 
 -- ventures
 INSERT INTO `ventures` (`id`, `sort_order`, `name`, `description`, `status`, `website`) VALUES ('v-1', 0, 'ME2MILLET', 'A brand of Krishitattva Agtech Private Limited. Focused on millet awareness, farming, and processing, and on value-added gluten-free products in Ready-to-Cook and Ready-to-Eat categories.', 'Co-Founder', 'www.me2millet.com | www.krishitattva.com');

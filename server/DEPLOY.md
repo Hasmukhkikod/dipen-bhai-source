@@ -38,6 +38,14 @@ Edit `server/.env`:
 - `CORS_ORIGIN` — your site's URL (e.g. `https://navyrixlabs.com`). Only needed if the frontend and API ever end up on different origins; with the Nginx setup below (same origin, `/api` proxied) you can leave this blank.
 - `PORT` — the port the Node process listens on internally (default 4000). Nginx will proxy to this; it doesn't need to be exposed publicly.
 
+For an existing database, add the optional image path used by Talks Manager
+before deploying the new API. Skip this if the database was just created from
+the updated schema:
+
+```sql
+ALTER TABLE speaking ADD COLUMN image VARCHAR(500) NULL;
+```
+
 Partner logos and project cover uploads are stored in `server/uploads/` outside
 the generated frontend build. Keep that directory writable and backed up when
 deploying updates.

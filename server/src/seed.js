@@ -12,7 +12,7 @@ const bcrypt = require('bcryptjs');
 const pool = require('./db');
 const {
   profile, settings, ventures, expertise, ecosystem, ecosystemActivities,
-  projects, speaking, globalPresence, skills, certifications,
+  projects, speaking, talks, globalPresence, skills, certifications,
   processSteps, credentials, leads, blogs,
 } = require('./seedData');
 
@@ -103,6 +103,15 @@ async function main() {
       await conn.query(
         'INSERT INTO speaking (id, sort_order, date, event, topic) VALUES (:id, :i, :date, :event, :topic)',
         { ...sp, i }
+      );
+    }
+
+    console.log('Seeding independent talks page entries...');
+    await conn.query('DELETE FROM talks');
+    for (const [i, talk] of talks.entries()) {
+      await conn.query(
+        'INSERT INTO talks (id, sort_order, date, event, topic, image) VALUES (:id, :i, :date, :event, :topic, :image)',
+        { ...talk, i }
       );
     }
 

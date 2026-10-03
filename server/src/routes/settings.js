@@ -42,7 +42,7 @@ const DEFAULT_SETTINGS = {
   seoTitle: 'Navyrix Labs | Embedded Systems, IoT & Product Engineering Services',
   seoDescription: 'Navyrix Labs delivers embedded systems, IoT architecture, and end-to-end product engineering — from firmware and connected hardware to certification and mass production — across electronics, defense, agritech, and biotech.',
   seoKeywords: 'embedded systems, IoT architecture, product engineering services, firmware development, connected hardware design, agritech IoT, defense electronics, startup mentorship, hardware prototyping, mass manufacturing support',
-  contactEmail: 'dipenparmar@icloud.com', contactPhone: '+91 99987 44676',
+  contactEmail: 'info@navyrix.com', contactPhone: '+91 99987 44676',
   contactLinkedin: 'linkedin.com/in/dipenparmar', contactLocation: 'Gujarat, India',
 };
 

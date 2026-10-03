@@ -135,6 +135,19 @@ const ContentProvider = ({ children }) => {
       setData((d) => ({ ...d, blogs: (d.blogs || []).filter((b) => b.id !== id) }));
     },
 
+    addTalk: async (talk) => {
+      const created = await apiFetch('/admin/talks', { method: 'POST', body: JSON.stringify(talk) });
+      setData((d) => ({ ...d, talks: [...(d.talks || []), created] }));
+    },
+    updateTalk: async (talk) => {
+      const updated = await apiFetch(`/admin/talks/${talk.id}`, { method: 'PUT', body: JSON.stringify(talk) });
+      setData((d) => ({ ...d, talks: (d.talks || []).map((item) => item.id === updated.id ? updated : item) }));
+    },
+    deleteTalk: async (id) => {
+      await apiFetch(`/admin/talks/${id}`, { method: 'DELETE' });
+      setData((d) => ({ ...d, talks: (d.talks || []).filter((item) => item.id !== id) }));
+    },
+
     addLead: async (lead) => {
       // Public endpoint - anyone submitting the contact form calls this, logged out.
       await apiFetch('/leads', { method: 'POST', body: JSON.stringify(lead) });
