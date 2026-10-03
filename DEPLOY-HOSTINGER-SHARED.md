@@ -56,11 +56,33 @@ run `npm run dump` from inside `server/` and re-upload the new
 `server/dump.sql`.
 
 When updating an existing database (instead of importing the updated dump into
-a fresh database), add the optional Talks Manager image column once in
-phpMyAdmin → SQL:
+a fresh database), add the Talks table. Keep it separate from `speaking`, which
+powers the portfolio's Lectures & Certs section:
+
+```sql
+CREATE TABLE IF NOT EXISTS talks (
+  id VARCHAR(50) PRIMARY KEY,
+  sort_order INT DEFAULT 0,
+  date VARCHAR(50),
+  event VARCHAR(255),
+  topic VARCHAR(255),
+  description TEXT,
+  image VARCHAR(500)
+);
+```
+
+If the existing `speaking` table does not already have an `image` column, run
+this separately once:
 
 ```sql
 ALTER TABLE speaking ADD COLUMN image VARCHAR(500) NULL;
+```
+
+If a previous Talks version already created the `talks` table without a
+`description` column, add that column once as well:
+
+```sql
+ALTER TABLE talks ADD COLUMN description TEXT NULL;
 ```
 
 ## 3. Upload the `server/` folder
@@ -93,7 +115,7 @@ hPanel → **Advanced → Node.js** → **Create Application**:
 Save/create it. hPanel will show an **npm install** button for this
 app — click it (this runs inside `server/`, matching `server/package.json`,
 and installs `express`, `mysql2`, `bcryptjs`, `jsonwebtoken`, `cors`,
-`dotenv`).
+`dotenv`, `multer`, and `nodemailer`).
 
 ## 5. Environment variables
 
@@ -119,15 +141,31 @@ Leave `CORS_ORIGIN` and `PORT` unset — Passenger assigns `PORT` itself and
 the app already reads it; CORS isn't needed since frontend and API are
 now same-origin.
 
+For contact-form notification emails, add these SMTP values in hPanel. Enter
+the mailbox password directly in hPanel; never commit it or send it in chat:
+
+| Key | Value |
+|---|---|
+| `SMTP_HOST` | `smtp.hostinger.com` |
+| `SMTP_PORT` | `465` |
+| `SMTP_SECURE` | `true` |
+| `SMTP_USER` | `info@navyrix.com` |
+| `SMTP_PASS` | *(the mailbox password, entered privately in hPanel)* |
+| `SMTP_FROM` | `Navyrix Labs <info@navyrix.com>` |
+| `LEAD_NOTIFICATION_TO` | `info@navyrix.com` |
+
+Without these SMTP settings, contact enquiries still save to the Admin Leads
+inbox but no email notification is sent.
+
 Restart the app from hPanel after saving env vars.
 
 ## 6. Verify
 
 - `https://navyrix.com/api/health` → `{"ok":true}`
 - `https://navyrix.com/` → homepage loads with live content.
-- `https://navyrix.com/#/admin` → log in with `admin` / `dipen123` (from
-  `dump.sql`), then **immediately** change the password via System
-  Settings → Change Admin Password.
+- `https://navyrix.com/#/admin` → log in using the seeded Admin account, then
+  **immediately** change its password via System Settings → Change Admin
+  Password. Do not keep a seed password on a public deployment.
 - Make sure HTTPS is on (hPanel → SSL, free Let's Encrypt) — the admin
   login sends a password over the network.
 

@@ -4,6 +4,8 @@ import AdminPanel from './pages/AdminPanel';
 import BlogPage from './pages/BlogPage';
 import MainSite from './pages/MainSite';
 import TalksPage from './pages/TalksPage';
+import WhatsAppWidget from './components/WhatsAppWidget';
+import { Toaster } from 'sonner';
 
 function App() {
   let [e, t] = useState(window.location.hash || `#/`);
@@ -49,7 +51,11 @@ function App() {
     }
   }, []);
   return <ContentProvider>
-      {e.startsWith(`#/admin`) ? <AdminPanel /> : e.startsWith(`#/blog`) ? <BlogPage currentPath={e} /> : e.startsWith(`#/talks`) ? <TalksPage /> : <MainSite />}
+      <Toaster position="bottom-right" theme="dark" />
+      {e.startsWith(`#/admin`) ? <AdminPanel /> : <>
+        {e.startsWith(`#/blog`) ? <BlogPage currentPath={e} /> : e.startsWith(`#/talks`) ? <TalksPage /> : <MainSite />}
+        <WhatsAppWidget />
+      </>}
     </ContentProvider>;
 }
 

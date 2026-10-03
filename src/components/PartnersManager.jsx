@@ -15,6 +15,7 @@ function PartnersManager() {
   const { data, updateProfile, uploadImage } = useContent();
   const [partners, setPartners] = useState(() => normalizePartners(data.profile.trustBrands));
   const [uploadingId, setUploadingId] = useState(null);
+  const [deletingId, setDeletingId] = useState(null);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
@@ -63,6 +64,22 @@ function PartnersManager() {
     }
   }
 
+  async function deletePartner(id) {
+    const nextPartners = partners.filter((partner) => partner.id !== id);
+    setError('');
+    setMessage('');
+    setDeletingId(id);
+    try {
+      await updateProfile({ ...data.profile, trustBrands: nextPartners });
+      setPartners(nextPartners);
+      setMessage('Partner deleted and saved.');
+    } catch (saveError) {
+      setError(saveError.message || 'Could not delete the partner.');
+    } finally {
+      setDeletingId(null);
+    }
+  }
+
   function movePartner(index, direction) {
     setPartners((current) => {
       const nextIndex = index + direction;
@@ -105,7 +122,7 @@ function PartnersManager() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
               <button type="button" title="Move partner up" aria-label="Move partner up" disabled={index === 0} onClick={() => movePartner(index, -1)} style={iconButtonStyle}><ChevronUp size={17} /></button>
               <button type="button" title="Move partner down" aria-label="Move partner down" disabled={index === partners.length - 1} onClick={() => movePartner(index, 1)} style={iconButtonStyle}><ChevronDown size={17} /></button>
-              <button type="button" title="Remove partner" aria-label={`Remove ${partner.name || 'partner'}`} onClick={() => setPartners((current) => current.filter((item) => item.id !== partner.id))} style={{ ...iconButtonStyle, color: '#E48772' }}><Trash2 size={16} /></button>
+              <button type="button" title="Delete partner" aria-label={`Delete ${partner.name || 'partner'}`} disabled={deletingId === partner.id} onClick={() => deletePartner(partner.id)} style={{ ...iconButtonStyle, color: '#E48772' }}><Trash2 size={16} /></button>
             </div>
           </article>
         ))}

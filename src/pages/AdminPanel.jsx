@@ -3,6 +3,7 @@ import { BookOpen, ExternalLink, FolderGit2, Image as ImageIcon, Inbox, LayoutDa
 import { useContent } from '../context/ContentContext';
 import PartnersManager from '../components/PartnersManager';
 import AdminImageUpload from '../components/AdminImageUpload';
+import { toast } from 'sonner';
 
 const adminFieldStyle = {
   padding: `0.75rem`,
@@ -11,6 +12,19 @@ const adminFieldStyle = {
   border: `1px solid rgba(255,255,255,0.1)`,
   outline: `none`,
 };
+
+function confirmWithToast({ title, description, actionLabel = 'Delete', onConfirm }) {
+  toast.custom((toastId) => (
+    <div role="alertdialog" aria-label={title} style={{ width: `min(360px, calc(100vw - 32px))`, padding: `1rem`, border: `1px solid rgba(255,255,255,0.12)`, background: `#202020`, color: `#FAF8F5`, boxShadow: `0 16px 42px rgba(0,0,0,.38)` }}>
+      <strong style={{ display: `block`, fontSize: `0.9rem` }}>{title}</strong>
+      {description && <span style={{ display: `block`, marginTop: `0.35rem`, color: `#A09E9B`, fontSize: `0.78rem`, lineHeight: 1.45 }}>{description}</span>}
+      <div style={{ display: `flex`, justifyContent: `flex-end`, gap: `0.5rem`, marginTop: `1rem` }}>
+        <button type="button" onClick={() => toast.dismiss(toastId)} style={{ padding: `0.55rem 0.8rem`, border: `1px solid rgba(255,255,255,.16)`, background: `transparent`, color: `#E5E2DD`, cursor: `pointer`, fontSize: `0.75rem`, fontWeight: 700 }}>Cancel</button>
+        <button type="button" onClick={() => { toast.dismiss(toastId); onConfirm(); }} style={{ padding: `0.55rem 0.8rem`, border: `1px solid #8D3525`, background: `#8D3525`, color: `#fff`, cursor: `pointer`, fontSize: `0.75rem`, fontWeight: 700 }}>{actionLabel}</button>
+      </div>
+    </div>
+  ), { duration: Infinity, position: 'bottom-right' });
+}
 
 function AdminPanel() {
   let {
@@ -62,7 +76,7 @@ function AdminPanel() {
       try {
         await we(ke.current, ke.next);
         Se({ current: ``, next: ``, confirm: `` });
-        alert(`Password changed successfully.`);
+        toast.success('Password changed successfully.');
       } catch (err) {
         xe(err.message || `Could not change password.`);
       }
@@ -118,14 +132,14 @@ function AdminPanel() {
         if (O) {
           await s(A);
           k(!1);
-          alert(`Blog Post Created Successfully!`);
+          toast.success('Blog post created.');
         } else {
           await c({ ...A, id: D.id });
           se(null);
-          alert(`Blog Post Updated Successfully!`);
+          toast.success('Blog post updated.');
         }
       } catch (err) {
-        alert(err.message || `Could not save the blog post.`);
+        toast.error(err.message || `Could not save the blog post.`);
       }
     },
     openNewTalk = () => {
@@ -147,34 +161,40 @@ function AdminPanel() {
         setEditingTalk(null);
         setTalkDraft({ date: '', event: '', topic: '', description: '', image: '' });
       } catch (error) {
-        alert(error.message || 'Could not save the talk.');
+        toast.error(error.message || 'Could not save the talk.');
       }
     },
     removeTalk = async id => {
-      if (!confirm('Delete this talk?')) return;
-      try { await deleteTalk(id); } catch (error) { alert(error.message || 'Could not delete the talk.'); }
-    },
-    de = async e => {
-      if (confirm(`Are you sure you want to delete this blog post?`)) {
-        try { await l(e); } catch (err) { alert(err.message || `Could not delete the blog post.`); }
+      try {
+        await deleteTalk(id);
+        toast.success('Talk deleted');
+      } catch (error) {
+        toast.error(error.message || 'Could not delete the talk.');
       }
+    },
+    confirmDeleteTalk = talk => confirmWithToast({ title: 'Delete this talk?', description: talk.topic, actionLabel: 'Delete talk', onConfirm: () => removeTalk(talk.id) }),
+    de = async e => {
+      const blog = (e.blogs || []).find((item) => item.id === e);
+      confirmWithToast({ title: 'Delete this blog post?', description: blog?.title, actionLabel: 'Delete post', onConfirm: async () => {
+        try { await l(e); toast.success('Blog post deleted.'); } catch (err) { toast.error(err.message || `Could not delete the blog post.`); }
+      } });
     },
     fe = async e => {
       e.preventDefault();
       try {
         await t(b);
-        alert(`Profile Settings Updated Successfully!`);
+        toast.success('Profile settings saved.');
       } catch (err) {
-        alert(err.message || `Could not save profile changes.`);
+        toast.error(err.message || `Could not save profile changes.`);
       }
     },
     pe = async e => {
       e.preventDefault();
       try {
         await n(C);
-        alert(`SEO & Contact Settings Saved!`);
+        toast.success('SEO and contact settings saved.');
       } catch (err) {
-        alert(err.message || `Could not save settings.`);
+        toast.error(err.message || `Could not save settings.`);
       }
     },
     me = () => {
@@ -210,27 +230,30 @@ function AdminPanel() {
         if (ie) {
           await r(t);
           ae(!1);
-          alert(`Project Created Successfully!`);
+          toast.success('Project created.');
         } else {
           await i({ ...t, id: T.id, number: T.number });
           re(null);
-          alert(`Project Updated Successfully!`);
+          toast.success('Project updated.');
         }
       } catch (err) {
-        alert(err.message || `Could not save the project.`);
+        toast.error(err.message || `Could not save the project.`);
       }
     },
     ye = async e => {
-      if (confirm(`Are you sure you want to delete this project?`)) {
-        try { await a(e); } catch (err) { alert(err.message || `Could not delete the project.`); }
-      }
+      const project = (e.projects || []).find((item) => item.id === e);
+      confirmWithToast({ title: 'Delete this project?', description: project?.title, actionLabel: 'Delete project', onConfirm: async () => {
+        try { await a(e); toast.success('Project deleted.'); } catch (err) { toast.error(err.message || `Could not delete the project.`); }
+      } });
     },
     be = async e => {
-      if (confirm(`Delete this contact lead?`)) {
-        try { await o(e); } catch (err) { alert(err.message || `Could not delete the lead.`); }
-      }
+      const lead = (e.leads || []).find((item) => item.id === e);
+      confirmWithToast({ title: 'Delete this contact lead?', description: lead?.name, actionLabel: 'Delete lead', onConfirm: async () => {
+        try { await o(e); toast.success('Contact lead deleted.'); } catch (err) { toast.error(err.message || `Could not delete the lead.`); }
+      } });
     };
-  return d ? <div style={{
+  return d ? <>
+      <div style={{
     minHeight: `100vh`,
     backgroundColor: `#0F0F0F`,
     color: `#E5E2DD`,
@@ -483,12 +506,20 @@ function AdminPanel() {
             {`VIEW PORTFOLIO`}
             <ExternalLink size={14} />
           </a>
-          <button onClick={async () => {
-          if (confirm(`Warning: This will restore profile and SEO/contact settings to their initial factory defaults. Leads, blog posts, and projects are not affected. Proceed?`)) {
-            await u();
-            window.location.reload();
-          }
-        }} style={{
+          <button onClick={() => confirmWithToast({
+          title: 'Reset profile and settings?',
+          description: 'This restores profile and SEO/contact settings to defaults. Leads, blog posts, projects, and talks are not affected.',
+          actionLabel: 'Reset settings',
+          onConfirm: async () => {
+            try {
+              await u();
+              toast.success('Profile and settings restored.');
+              window.location.reload();
+            } catch (error) {
+              toast.error(error.message || 'Could not reset settings.');
+            }
+          },
+        })} style={{
           display: `flex`,
           alignItems: `center`,
           justifyContent: `center`,
@@ -1665,7 +1696,7 @@ function AdminPanel() {
                     <span style={{ color: `#A09E9B`, fontSize: `0.85rem` }}>{talk.topic}{talk.description ? <small style={{ display: `block`, marginTop: `0.3rem`, color: `#777` }}>{talk.description.slice(0, 110)}{talk.description.length > 110 ? `…` : ``}</small> : null}</span>
                     <div style={{ display: `flex`, justifyContent: `flex-end`, gap: `0.5rem` }}>
                       <button onClick={() => openEditTalk(talk)} title="Edit talk" style={{ border: `none`, background: `#2C2C2C`, color: `#FAF8F5`, padding: `0.5rem`, cursor: `pointer` }}><PenLine size={15} /></button>
-                      <button onClick={() => removeTalk(talk.id)} title="Delete talk" style={{ border: `none`, background: `#3D1C1C`, color: `#FF7F7F`, padding: `0.5rem`, cursor: `pointer` }}><Trash2 size={15} /></button>
+                      <button onClick={() => confirmDeleteTalk(talk)} title="Delete talk" style={{ border: `none`, background: `#3D1C1C`, color: `#FF7F7F`, padding: `0.5rem`, cursor: `pointer` }}><Trash2 size={15} /></button>
                     </div>
                   </div>) : <p style={{ padding: `2rem`, margin: 0, color: `#8C8A87` }}>{`No talks yet. Add your first event above.`}</p>}
               </div>}
@@ -2273,7 +2304,8 @@ function AdminPanel() {
           }
         }
       `}</style>
-    </div> : <div style={{
+    </div>
+    </> : <div style={{
     minHeight: `100vh`,
     backgroundColor: `#0F0F0F`,
     color: `#E5E2DD`,

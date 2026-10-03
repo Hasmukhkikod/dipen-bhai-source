@@ -18,7 +18,7 @@ function BlogPage({
   return <div style={{ backgroundColor: `var(--bg-primary)`, minHeight: `100vh`, display: `flex`, flexDirection: `column` }}>
       <header style={{ borderBottom: `1px solid var(--border-thin)`, padding: `2rem 0`, backgroundColor: `var(--bg-primary)`, position: `sticky`, top: 0, zIndex: 50 }}>
         <div className="container-custom" style={{ display: `flex`, justifyContent: `space-between`, alignItems: `center` }}>
-          <a href="#/" style={{ fontSize: `1.1rem`, fontWeight: 850, textTransform: `uppercase`, color: `var(--text-primary)`, letterSpacing: `0.05em`, textDecoration: `none` }}>{`NAVYRIX LABS`}</a>
+          <a href="#/" aria-label="Navyrix Labs home" style={{ display: `inline-flex`, alignItems: `center`, flexShrink: 0 }}><img src="/Navyrix%20logo.png" alt="Navyrix Labs" style={{ display: `block`, width: `86px`, height: `58px`, objectFit: `contain` }} /></a>
           <nav aria-label="Journal navigation" style={{ display: `flex`, gap: `2rem`, alignItems: `center` }}>
             <a href="#/" style={{ fontSize: `0.8rem`, fontWeight: 700, textTransform: `uppercase`, color: `var(--text-secondary)`, textDecoration: `none`, letterSpacing: `0.05em` }}>{`Portfolio`}</a>
             <a href="#/blog" style={{ fontSize: `0.8rem`, fontWeight: 700, textTransform: `uppercase`, color: `var(--accent-copper)`, textDecoration: `none`, letterSpacing: `0.05em` }}>{`Writing`}</a>

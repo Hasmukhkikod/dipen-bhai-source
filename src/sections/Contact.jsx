@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { LoaderCircle, Mail, MapPin, Phone, Send } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
+import { toast } from 'sonner';
 
 var LinkedInIcon = ({
   size: e = 24,
@@ -199,7 +200,7 @@ function Contact() {
             }}>{`SEND ANOTHER MESSAGE`}</button>
               </div> : <form onSubmit={async e => {
             if (e.preventDefault(), !r.name || !r.email || !r.description) {
-              alert(`Please fill in Name, Email, and Project Description.`);
+              toast.error(`Please fill in Name, Email, and Project Description.`);
               return;
             }
             o(`loading`);
